@@ -15,20 +15,29 @@ This project highlights skills in:
 📊 Schema Overview
 
 Dimension Tables:
+- dim date
+- dim_encounter
+- dim_organization
+- dim_payer
+- dim_procedure
+- dim_reason
 - dim_patient
-- dim_department
-- dim_provider
-- dim_date
   
 Fact Table:
 - fact_encounter — stores encounter-level metrics such as charges, length of stay, and department/provider relationships.
+- fact_procedure - stores base cost as its only metrics 
 
 See erd.png for the visual entity-relationship diagram.
 
 🧱 Files in This Repository
 
-- schema.sql ->	           SQL code for creating all tables in the star schema
-- sample_data.sql ->	       Inserts sample values for demonstration and testing
+- encounters_schema.sql
+  organizations_schema.sql
+  patients_schema.sql
+  payers_schema.sql
+  fact_encounters_schema.sql
+  fact_procedures_schema.sql
+ ->	           SQL code for creating all the dimension and fact tables in the star schema
 - queries.sql ->	           Analytical SQL queries using joins, CTEs, and aggregations
 - erd.png ->	               Exported ERD diagram showing table relationships
 - LICENSE ->	               MIT License
@@ -43,39 +52,23 @@ See erd.png for the visual entity-relationship diagram.
 
 ✨ Example Analytical Queries
 This project includes SQL queries answering common hospital analytics questions:
+1. Encounter volume and costs by month
 
-1. Average Charges by Department
-   
-SELECT d.department_name, AVG(f.total_charges) AS avg_charges
-FROM fact_encounter f
-JOIN dim_department d ON f.department_id = d.department_id
-GROUP BY d.department_name;
+2. Top encounter reasons by total cost
 
-2. Encounters Per Provider
-   
-SELECT p.provider_name, COUNT(*) AS encounter_count
-FROM fact_encounter f
-JOIN dim_provider p ON f.provider_id = p.provider_id
-GROUP BY p.provider_name;
+3. Procedure volume and base cost by month
 
-3. Daily Encounter & Revenue Summary
-   
-SELECT dd.date_value, COUNT(*) AS total_encounters, SUM(f.total_charges) AS total_revenue
-FROM fact_encounter f
-JOIN dim_date dd ON f.date_id = dd.date_id
-GROUP BY dd.date_value;
+4. Most common procedures and total base cost
 
 🔥 Goals of This Project
 - Demonstrate dimensional modeling skills
 - Build a clean star schema optimized for BI tools
 - Show SQL capability beyond simple queries
-- Prepare for analytics engineering and data engineering roles
-- Create a professional portfolio project for recruiters
 
 📁 How to Run This Project
-- Install SQLite or open a GUI (DB Browser or DBeaver).
-- Run schema.sql to create all tables.
-- Run sample_data.sql to load test data.
+- Install SQLite.
+- Import ALL CSV files into staging tables using SQLite .import.
+- Run ALL schema.sql files to create all tables.
 - Run queries.sql to execute analytical queries.
 
 📄 License
